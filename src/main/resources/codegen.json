@@ -1,0 +1,18 @@
+{
+  "name": "service_proxies",
+  "generators": [
+    {
+      "kind": "proxy",
+      "fileName": "ifaceFQCN + 'ContextAwareVertxProxyHandler.java'",
+      "templateFileName": "serviceproxy/template/contextawarehandlergen.templ"
+    },{
+      "kind": "proxy",
+      "fileName": "ifaceFQCN + 'ContextAware.java'",
+      "templateFileName": "serviceproxy/template/contextawareinterfacegen.templ"
+    },{
+      "kind": "proxy",
+      "fileName": "ifaceFQCN + 'ContextualVertxEBProxy.java'",
+      "templateFileName": "serviceproxy/template/contextualproxy.templ"
+    }
+  ]
+}

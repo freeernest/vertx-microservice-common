@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	
+	<bean id="kafkaDataRawSink" class="com.bigpanda.commons.inventory.loader.KafkaDataRawSink" init-method="init" destroy-method="close">
+		<property name="topicProvider" ref="statusTopicMapper" />
+		<property name="properties">
+			<props>
+				<prop key="bootstrap.servers">${kafka.bootstrap.servers}</prop>
+				<prop key="acks">all</prop>
+				<prop key="retries">0</prop>
+				<prop key="batch.size">16384</prop>
+				<prop key="linger.ms">1</prop>
+				<prop key="buffer.memory">33554432</prop>
+				<prop key="key.serializer">org.apache.kafka.common.serialization.StringSerializer</prop>
+				<prop key="value.serializer">org.apache.kafka.common.serialization.StringSerializer</prop>
+			</props>
+		</property>
+		<property name="mappings">
+			<map>
+				<entry key="id" value="external_id" />
+				<entry key="cut" value="shape" />
+				<entry key="ct" value="carat" />
+				<entry key="col" value="color" />
+				<entry key="mk" value="cut" />
+				<entry key="nfc" value="fancy_color" />
+				<entry key="nfci" value="fancy_color_intensity" />
+				<entry key="nfco" value="fancy_color_overtone" />
+				<entry key="tc" value="treated_color" />
+				<entry key="cl" value="clarity" />
+				<entry key="lab" value="lab" />
+				<entry key="cn" value="cert_num" />
+				<entry key="cp" value="cert_path" />
+				<entry key="ip" value="img_path" />
+				<entry key="ap" value="price" />
+				<entry key="tp" value="price_total" />
+				<entry key="pol" value="polish" />
+				<entry key="sym" value="symmetry" />
+				<entry key="mes" value="measure" />
+				<entry key="dp" value="depth" />
+				<entry key="tb" value="width" />
+				<entry key="cr" value="crown_h" />
+				<entry key="pv" value="pavilion_depth" />
+				<entry key="gd" value="girdle" />
+				<entry key="cs" value="culet_size" />
+				<entry key="cc" value="culet_condition" />
+				<entry key="gr" value="graining" />
+				<entry key="fl" value="fluorescence_intensity" />
+				<entry key="fc" value="fluorescence_color" />
+				<entry key="idxl" value="idxl" />
+				<entry key="sup" value="sup" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="statusTopicMapper" class="com.bigpanda.commons.inventory.loader.StatusTopicMapperImpl">
+		<property name="topicIfNotFound" value="diamond.new" />
+		<property name="statusTopicMapping">
+			<map>
+				<entry key="new" value="diamond.new" />
+				<entry key="deleted" value="diamond.deleted" />
+				<entry key="edited" value="diamond.edited" />
+			</map>
+		</property>
+	</bean>
+	
+</beans>

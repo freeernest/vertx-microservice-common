@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="pubSecKeyOptions" class="io.vertx.ext.auth.PubSecKeyOptions">
+        <property name="algorithm" value="RS256" />
+        <property name="publicKey" value="${jwt.verifier.rsa.publicKey.base64encoded}"/>
+    </bean>
+
+    <bean id="jwtAuthOptions" class="io.vertx.ext.auth.jwt.JWTAuthOptions">
+        <property name="pubSecKeys">
+            <list>
+                <ref bean="pubSecKeyOptions" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="jwtAuthFactory" class="com.bigpanda.commons.security.JWTAuthFactoryObject">
+        <property name="vertx" ref="vertxFactory" />
+        <property name="jwtAuthOptions" ref="jwtAuthOptions"/>
+    </bean>
+</beans>
